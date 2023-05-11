@@ -8,12 +8,18 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[ORM\Column(type: "string")]
+    #[ORM\Column(type: "string", nullable: true)]
     private $password;
+
+    #[ORM\Column(type: Types::JSON)]
+    private array $roles = [];
+
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -237,9 +243,22 @@ class User implements UserInterface
 
     public function getRoles(): array
     {
-        // For now, just return a hardcoded array. In a real application,
-        // this would typically return roles based on the user's permissions.
-        return ['ROLE_USER'];
+        $roles = $this->roles ?? [];
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        if ($roles === null) {
+            $this->roles = [];
+        } else {
+            $this->roles = $roles;
+        }
+
+        return $this;
     }
 
     public function eraseCredentials()
