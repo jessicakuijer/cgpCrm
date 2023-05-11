@@ -1,0 +1,12 @@
+{# templates/home/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+    <h1>Welcome to the home page!</h1>
+    <p>Here you can find some information about the project.</p>
+    <p>Please login to see the content.</p>
+    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ path('app_login') }}'">Login</button>
+{% endblock %}
