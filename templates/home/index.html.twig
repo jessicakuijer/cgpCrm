@@ -5,8 +5,20 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-    <h1>Welcome to the home page!</h1>
-    <p>Here you can find some information about the project.</p>
-    <p>Please login to see the content.</p>
-    <button type="button" class="btn btn-primary" onclick="window.location.href='{{ path('app_login') }}'">Login</button>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8">
+            <div class="card mt-5">
+                <div class="card-header bg-primary text-white">
+                    <h3>Bienvenue sur le CRM de Gestion de Patrimoine</h3>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Chère administratrice, ici vous pouvez gérer efficacement tous vos clients et leur patrimoine. Profitez d'une interface intuitive et puissante pour améliorer votre productivité.</p>
+                    <p class="card-text">Veuillez vous connecter pour commencer à utiliser le CRM.</p>
+                    <a class="btn btn-primary" href="{{ path('app_login') }}">Se connecter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
