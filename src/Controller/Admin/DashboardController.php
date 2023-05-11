@@ -49,11 +49,11 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('CdgGestion');
+            ->setTitle('CGP - Admin');
     }
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToCrud('Users', 'fa fa-user', User::class);
+        yield MenuItem::linkToCrud('Clients', 'fa fa-user', User::class);
     }
 }
