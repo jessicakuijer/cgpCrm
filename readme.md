@@ -16,42 +16,43 @@ Suivez ces étapes pour installer et configurer ce projet sur votre machine loca
 
 1. **Clonez le dépôt**
 
-   Utilisez la commande suivante pour cloner le dépôt sur votre machine locale.
+   Utilisez la commande suivante pour cloner le dépôt sur votre machine locale.  
 
-   ```
+```
 git clone https://github.com/jessicakuijer/cgpCrm.git
-    ```  
+```  
 
 2. **Installer les dépendances PHP**
 
-Après avoir cloné le dépôt, déplacez-vous dans le dossier du projet et utilisez Composer pour installer les dépendances PHP.
-    
-    ```
-    cd my-project/
-    composer install
-    ```
+Après avoir cloné le dépôt, déplacez-vous dans le dossier du projet et utilisez Composer pour installer les dépendances PHP.  
+
+```
+cd my-project/
+composer install
+```
 
 3. **Configurer l'environnement**
 
 Copiez le fichier `.env` en `.env.local` et ajustez les variables d'environnement si nécessaire. 
-Ajoutez la variable d'environnement `APP_ENV=dev` pour activer le mode développement ou `APP_ENV=prod` pour le mode production.
+Ajoutez la variable d'environnement `APP_ENV=dev` pour activer le mode développement ou `APP_ENV=prod` pour le mode production.  
 Ajoutez vos paramètres de base de données dans le fichier `.env.local` et créez la base de données.
 
 4. **Lancer les migrations**
 Après avoir configuré la base de données, lancez les migrations pour créer les tables de la base de données.
 
-    ```
-    php bin/console doctrine:migrations:migrate
-    ```
-
+```
+php bin/console doctrine:migrations:migrate
+```
 
 5. **Installer les dépendances Node.js**
 
 Ce projet utilise Webpack Encore pour gérer les actifs, qui nécessite Node.js. Utilisez npm (qui est inclus avec Node.js) pour installer les dépendances.
     
-        ```
-        npm install
-        ```
+```
+npm install
+```  
+Si vous rencontrez des problèmes lors de l'installation des dépendances, vous pouvez essayer de supprimer le fichier `package-lock.json` et d'exécuter la commande `npm install` à nouveau.
+
 6. **Compiler les assets**
 Après avoir installé les dépendances Node.js, vous pouvez compiler les assets en utilisant Webpack Encore. 
 
@@ -62,22 +63,24 @@ npm run dev
 En mode production:
 ```
 npm run build
-```
+```  
+
 7. **Lancer le serveur**
 Utilisez la CLI Symfony pour lancer le serveur de développement.
     
-    ```
-    symfony server:start
-    ```  
+```
+symfony server:start (ou serve -d)
+```  
 Ouvrez votre navigateur et accédez à l'URL `localhost:8000` pour accéder à l'application.
+Vous ne pourrez pas accéder au tableau de bord administrateur tant que vous n'aurez pas créé un utilisateur avec le rôle `ROLE_ADMIN`.
 
 8. **Promouvoir un utilisateur en tant qu'admin**
 
 Pour promouvoir un utilisateur en tant qu'administrateur, vous pouvez utiliser la commande `app:promote-admin`. Vous devrez spécifier l'adresse e-mail de l'utilisateur que vous souhaitez promouvoir dans le fichier correspondant.
 
-    ```
-    php bin/console app:promote-admin
-    ```  
+```
+php bin/console app:promote-admin
+```  
 Cette commande ajoutera le rôle `ROLE_ADMIN` à l'utilisateur et lui permettra d'accéder au tableau de bord administrateur.  
 
 ## Utilisation de l'application ##
