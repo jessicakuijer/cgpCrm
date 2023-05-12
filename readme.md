@@ -87,8 +87,11 @@ Cette commande ajoutera le rôle `ROLE_ADMIN` à l'utilisateur et lui permettra 
 
 ## Utilisation de l'application ##
 ### Ajout de client ###
-Vous pouvez ajouter vos clients, leurs informations personnelles dans le crm. Pour ajouter un client, cliquez sur le bouton "Ajouter un client" dans le menu de navigation. Vous serez redirigé vers un formulaire où vous pourrez ajouter les informations du client et par qui il a été recommandé.
+Vous pouvez ajouter vos clients, leurs informations personnelles dans le crm. Pour ajouter un client, cliquez sur le bouton "Ajouter un client" dans le menu de navigation. Vous serez redirigé vers un formulaire où vous pourrez ajouter les informations du client et par qui il a été recommandé.  
 
+### Exporter les données ###
+Vous pouvez exporter les données de vos clients dans un fichier CSV.  
+Pour ce faire, cliquez sur le bouton "Export to CSV" dans le menu de navigation du tableau de bord.  
 ## License ##
 Ce projet est sous licence MIT. Me contacter pour toute question.
 
