@@ -51,7 +51,7 @@ class PromoteAdminCommand extends Command
         $user->setRoles($roles);
 
         // Set the password for the user.
-        $plaintextPassword = $this->parameterBag->get('ADMIN_PASSWORD');
+        $plaintextPassword = $this->parameterBag->get('ADMIN_PLAIN_PASSWORD');
         $hashedPassword = $this->passwordHasher->hashPassword(
             $user,
             $plaintextPassword
