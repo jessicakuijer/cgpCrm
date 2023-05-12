@@ -1,0 +1,5 @@
+action:
+    add_new: 'Ajouter un client'
+Users:
+    fields:
+        new: 'Ajouter un client'

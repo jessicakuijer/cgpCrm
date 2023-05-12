@@ -65,5 +65,7 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToCrud('Clients', 'fa fa-user', User::class);
         yield MenuItem::linkToRoute('Export to CSV', 'fa fa-file-csv', 'admin_export');
+        yield MenuItem::linkToCrud('Ajouter un client', 'fa fa-user-plus', User::class)->setAction('new');
+        yield MenuItem::linkToLogout('Se déconnecter', 'fa fa-sign-out', 'app_logout');
     }
 }
