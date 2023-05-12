@@ -76,7 +76,9 @@ Vous ne pourrez pas accéder au tableau de bord administrateur tant que vous n'a
 
 8. **Promouvoir un utilisateur en tant qu'admin**
 
-Pour promouvoir un utilisateur en tant qu'administrateur, vous pouvez utiliser la commande `app:promote-admin`. Vous devrez spécifier l'adresse e-mail de l'utilisateur que vous souhaitez promouvoir dans le fichier correspondant.
+Pour promouvoir un utilisateur en tant qu'administrateur, vous pouvez utiliser la commande `app:promote-admin`.  Vous devrez spécifier l'adresse e-mail de l'utilisateur dans le fichier `PromoteAdminCommand` et définir un mot de passe dans la variable d'environnement `ADMIN_PLAIN_PASSWORD`.  
+Spécifier cette variable dans votre fichier `.env.local` ou au sein de votre serveur de production.  
+Ce mot de passe sera automatiquement hashé lors de l'exécution de la commande.
 
 ```
 php bin/console app:promote-admin
