@@ -10,6 +10,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 #[AsCommand(
     name: 'app:promote-admin',
@@ -21,11 +22,13 @@ class PromoteAdminCommand extends Command
 
     private $entityManager;
     private UserPasswordHasherInterface $passwordHasher;
+    private ParameterBagInterface $parameterBag;
 
-    public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher)
+    public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, ParameterBagInterface $parameterBag)
     {
         $this->entityManager = $entityManager;
         $this->passwordHasher = $passwordHasher;
+        $this->parameterBag = $parameterBag;
 
         parent::__construct();
     }
@@ -48,7 +51,7 @@ class PromoteAdminCommand extends Command
         $user->setRoles($roles);
 
         // Set the password for the user.
-        $plaintextPassword = 'admin';
+        $plaintextPassword = $this->parameterBag->get('ADMIN_PASSWORD');
         $hashedPassword = $this->passwordHasher->hashPassword(
             $user,
             $plaintextPassword
