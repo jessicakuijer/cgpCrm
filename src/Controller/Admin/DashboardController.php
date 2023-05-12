@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Service\CsvExporter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -13,10 +14,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 class DashboardController extends AbstractDashboardController
 {
     private $adminUrlGenerator;
+    private $csvExporter;
 
-    public function __construct(AdminUrlGenerator $adminUrlGenerator)
+    public function __construct(AdminUrlGenerator $adminUrlGenerator, CsvExporter $csvExporter)
     {
         $this->adminUrlGenerator = $adminUrlGenerator;
+        $this->csvExporter = $csvExporter;
     }
 
     #[Route('/admin', name: 'admin')]
@@ -46,6 +49,12 @@ class DashboardController extends AbstractDashboardController
         // return $this->render('some/path/my-dashboard.html.twig');
     }
 
+    #[Route('/admin/export', name: 'admin_export')]
+    public function exportToCsv(): Response
+    {
+        return $this->csvExporter->exportToCsv();
+    }
+
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
@@ -55,5 +64,6 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToCrud('Clients', 'fa fa-user', User::class);
+        yield MenuItem::linkToRoute('Export to CSV', 'fa fa-file-csv', 'admin_export');
     }
 }
