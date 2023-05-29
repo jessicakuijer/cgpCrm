@@ -25,9 +25,9 @@ class UserCrudController extends AbstractCrudController
             TextField::new('nom')->setLabel('Nom'),
             TextField::new('prenom')->setLabel('Prénom'),
             TextField::new('telephone')->setLabel('Téléphone'),
-            /* DateField::new('datedenaissance')->setLabel('Date de Naissance'), */
+            DateField::new('datedenaissance')->setLabel('Date de Naissance'),
             EmailField::new('email')->setLabel('Email'),
-            /* TextField::new('adresse')->setLabel('Adresse'), */
+            TextField::new('adresse')->setLabel('Adresse'),
             TextField::new('profession')->setLabel('Profession'),
             BooleanField::new('client')->setLabel('Client'),
             AssociationField::new('recommandation')->setLabel('Recommandation'),

@@ -45,12 +45,12 @@ class CreateUserCommand extends Command
 
         $user = new User();
         $user->setEmail($input->getArgument('email'));
-        $user->setNom('Berny'); // Change this to whatever name you want
-        $user->setPrenom('Edith');
+        $user->setNom('Nom'); // Change this to whatever name you want
+        $user->setPrenom('Prénom'); // Change this to whatever name you want
         $user->setTelephone('0606060606');//change this fake number after using the command
         $user->setDatedenaissance(new \DateTime('1975-12-18'));
-        $user->setAdresse('1 rue de la paix');
-        $user->setProfession('conseillère en gestion de patrimoine');
+        $user->setAdresse('adresse à modifier');
+        $user->setProfession('profession à modifier');
         $user->setClient(0);
         $user->setCommentaire('client initialisé par la commande');
         $user->setPassword(

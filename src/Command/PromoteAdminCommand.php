@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -33,12 +34,17 @@ class PromoteAdminCommand extends Command
         parent::__construct();
     }
 
+    protected function configure(): void
+    {
+        $this->addArgument('email', InputArgument::REQUIRED, 'The email of the user.');
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        // Get the user you want to promote. This is just an example, replace it with your own logic.
-        $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => 'bernyedith.db@gmail.com']);
+        // Get the user you want to promote.
+        $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $input->getArgument('email')]);
 
         if (!$user) {
             $io->error('User not found.');
@@ -64,8 +70,5 @@ class PromoteAdminCommand extends Command
         $io->success('User promoted to admin.');
 
         return Command::SUCCESS;
-
-
-        }
-
+    }
 }
