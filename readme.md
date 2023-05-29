@@ -37,14 +37,28 @@ Copiez le fichier `.env` en `.env.local` et ajustez les variables d'environnemen
 Ajoutez la variable d'environnement `APP_ENV=dev` pour activer le mode développement ou `APP_ENV=prod` pour le mode production.  
 Ajoutez vos paramètres de base de données dans le fichier `.env.local` et créez la base de données.
 
-4. **Lancer les migrations**
+4. **Créer la base de données**
+Créez la base de données en utilisant la CLI Symfony.
+
+```
+php bin/console doctrine:database:create
+```
+ou en utilisant la commande MySQL
+
+```
+brew services start mysql (ou mysql.server start)
+mysql -u root -p
+CREATE DATABASE crmGestion;
+```
+
+5. **Lancer les migrations**
 Après avoir configuré la base de données, lancez les migrations pour créer les tables de la base de données.
 
 ```
 php bin/console doctrine:migrations:migrate
 ```
 
-5. **Installer les dépendances Node.js**
+7. **Installer les dépendances Node.js**
 
 Ce projet utilise Webpack Encore pour gérer les actifs, qui nécessite Node.js. Utilisez npm (qui est inclus avec Node.js) pour installer les dépendances.
     
@@ -53,7 +67,7 @@ npm install
 ```  
 Si vous rencontrez des problèmes lors de l'installation des dépendances, vous pouvez essayer de supprimer le fichier `package-lock.json` et d'exécuter la commande `npm install` à nouveau.
 
-6. **Compiler les assets**
+8. **Compiler les assets**
 Après avoir installé les dépendances Node.js, vous pouvez compiler les assets en utilisant Webpack Encore. 
 
 En mode développement:
@@ -65,7 +79,7 @@ En mode production:
 npm run build
 ```  
 
-7. **Lancer le serveur**
+9. **Lancer le serveur**
 Utilisez la CLI Symfony pour lancer le serveur de développement.
     
 ```
@@ -74,7 +88,17 @@ symfony server:start (ou serve -d)
 Ouvrez votre navigateur et accédez à l'URL `localhost:8000` pour accéder à l'application.
 Vous ne pourrez pas accéder au tableau de bord administrateur tant que vous n'aurez pas créé un utilisateur avec le rôle `ROLE_ADMIN`.
 
-8. **Promouvoir un utilisateur en tant qu'admin**
+10. **Créer un utilisateur**
+Pour créer un utilisateur, vous pouvez utiliser la commande `app:create-user`. Vous devrez spécifier l'adresse e-mail de l'utilisateur dans le fichier `CreateUserCommand` et définir un mot de passe dans la variable d'environnement `USER_PLAIN_PASSWORD`.
+Spécifier cette variable dans votre fichier `.env.local` ou au sein de votre serveur de production.
+Ce mot de passe sera automatiquement hashé lors de l'exécution de la commande.
+
+```
+php bin/console app:create-user
+```
+Cette commande ajoutera le rôle `ROLE_USER` à l'utilisateur et lui permettra d'accéder à l'application.
+
+11. **Promouvoir un utilisateur en tant qu'admin pour accéder au Dashboard**
 
 Pour promouvoir un utilisateur en tant qu'administrateur, vous pouvez utiliser la commande `app:promote-admin`.  Vous devrez spécifier l'adresse e-mail de l'utilisateur dans le fichier `PromoteAdminCommand` et définir un mot de passe dans la variable d'environnement `ADMIN_PLAIN_PASSWORD`.  
 Spécifier cette variable dans votre fichier `.env.local` ou au sein de votre serveur de production.  
