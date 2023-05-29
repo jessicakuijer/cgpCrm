@@ -89,8 +89,12 @@ Ouvrez votre navigateur et accédez à l'URL `localhost:8000` pour accéder à l
 Vous ne pourrez pas accéder au tableau de bord administrateur tant que vous n'aurez pas créé un utilisateur avec le rôle `ROLE_ADMIN`.
 
 10. **Créer un utilisateur**
-Pour créer un utilisateur, vous pouvez utiliser la commande `app:create-user`. Vous devrez spécifier l'adresse e-mail de l'utilisateur dans le fichier `CreateUserCommand` et définir un mot de passe dans la variable d'environnement `USER_PLAIN_PASSWORD`.
-Spécifier cette variable dans votre fichier `.env.local` ou au sein de votre serveur de production.
+Pour créer un utilisateur, vous pouvez utiliser la commande `app:create-user emailchoisi@mail.com`. Vous devrez définir un mot de passe dans la variable d'environnement `USER_PLAIN_PASSWORD`.
+Spécifier cette variable dans votre fichier `.env.local` ou au sein de votre serveur de production ainsi que dans config/services.yaml :
+```
+parameters:
+    USER_PLAIN_PASSWORD: '%env(resolve:USER_PLAIN_PASSWORD)%'
+```
 Ce mot de passe sera automatiquement hashé lors de l'exécution de la commande.
 
 ```
@@ -100,8 +104,12 @@ Cette commande ajoutera le rôle `ROLE_USER` à l'utilisateur et lui permettra d
 
 11. **Promouvoir un utilisateur en tant qu'admin pour accéder au Dashboard**
 
-Pour promouvoir un utilisateur en tant qu'administrateur, vous pouvez utiliser la commande `app:promote-admin`.  Vous devrez spécifier l'adresse e-mail de l'utilisateur dans le fichier `PromoteAdminCommand` et définir un mot de passe dans la variable d'environnement `ADMIN_PLAIN_PASSWORD`.  
-Spécifier cette variable dans votre fichier `.env.local` ou au sein de votre serveur de production.  
+Pour promouvoir un utilisateur en tant qu'administrateur, vous pouvez utiliser la commande `app:promote-admin emailchoisi@mail.com`. Vous devrez définir un mot de passe dans la variable d'environnement `ADMIN_PLAIN_PASSWORD`.  
+Spécifier cette variable dans votre fichier `.env.local` ou au sein de votre serveur de production ainsi que dans config/services.yaml :
+```
+parameters:
+    ADMIN_PLAIN_PASSWORD: '%env(resolve:ADMIN_PLAIN_PASSWORD)%'
+```
 Ce mot de passe sera automatiquement hashé lors de l'exécution de la commande.
 
 ```
@@ -109,6 +117,13 @@ php bin/console app:promote-admin
 ```  
 Cette commande ajoutera le rôle `ROLE_ADMIN` à l'utilisateur et lui permettra d'accéder au tableau de bord administrateur.  
 
+11.bis **Créer et promouvoir un utilisateur en tant qu'admin pour accéder au Dashboard (les deux commandes en une)**  
+Pour plus de flexibilité, vous pouvez utilisez l'une ou l'autre commande ci-dessus ou alors utiliser la commande `app:create-and-promote-user emailchoisi@mail.com`. N'oubliez pas non plus de définir les mots de passe `ADMIN_PLAIN_PASSWORD` et `USER_PLAIN_PASSWORD` en tant que variables d'environnement dans votre fichier`.env.local` ou au sein de votre serveur de production ainsi que dans config/services.yaml :
+```
+parameters:
+    ADMIN_PLAIN_PASSWORD: '%env(resolve:ADMIN_PLAIN_PASSWORD)%'
+    USER_PLAIN_PASSWORD: '%env(resolve:USER_PLAIN_PASSWORD)%'
+```  
 ## Utilisation de l'application ##
 ### Ajout de client ###
 Vous pouvez ajouter vos clients, leurs informations personnelles dans le crm. Pour ajouter un client, cliquez sur le bouton "Ajouter un client" dans le menu de navigation. Vous serez redirigé vers un formulaire où vous pourrez ajouter les informations du client et par qui il a été recommandé.  
