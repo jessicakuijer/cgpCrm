@@ -49,6 +49,8 @@ class CsvImporter
             $user->setEmail($csvRow['Email'] ?? '');
             $user->setAdresse($csvRow['Adresse'] ?? '');
             $user->setProfession($csvRow['Profession'] ?? '');
+            $user->setCivil($csvRow['Statut Marital'] ?? '');
+            $user->setEnfants(isset($csvRow['Enfants']) ? (int)$csvRow['Enfants'] : null);
             $user->setClient($csvRow['Est un client'] === 'Oui' ? true : false);
             
             if (isset($csvRow['Recommandation'])) {

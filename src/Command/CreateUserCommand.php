@@ -59,6 +59,8 @@ class CreateUserCommand extends Command
                 $this->parameterBag->get('USER_PLAIN_PASSWORD')
             )
         );
+        $user->setEnfants(0);
+        $user->setCivil('statut marital à changer');
 
         // Here set the other required fields of the user, like the username, etc...
 

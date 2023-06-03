@@ -2,15 +2,17 @@
 
 namespace App\Controller\Admin;
 
+use IntlChar;
 use App\Entity\User;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -29,6 +31,8 @@ class UserCrudController extends AbstractCrudController
             EmailField::new('email')->setLabel('Email'),
             TextField::new('adresse')->setLabel('Adresse'),
             TextField::new('profession')->setLabel('Profession'),
+            TextField::new('civil')->setLabel('Statut Marital'),
+            IntegerField::new('enfants')->setLabel('Nombre d\'enfants'),
             BooleanField::new('client')->setLabel('Client'),
             AssociationField::new('recommandation')->setLabel('Recommandation'),
             TextareaField::new('commentaire')->setLabel('Commentaire'),

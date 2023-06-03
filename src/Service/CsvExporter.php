@@ -29,7 +29,7 @@ class CsvExporter
         fwrite($handle, "\xEF\xBB\xBF");
 
         // Add the header of the CSV file
-        fputcsv($handle, ['ID', 'Nom', 'Prénom', 'Téléphone', 'Date de naissance', 'Email', 'Adresse', 'Profession', 'Est un client', 'Recommandation', 'Commentaire'], ';');
+        fputcsv($handle, ['ID', 'Nom', 'Prénom', 'Téléphone', 'Date de naissance', 'Email', 'Adresse', 'Profession', 'Statut Marital', 'Enfants', 'Est un client', 'Recommandation', 'Commentaire'], ';');
 
         // Add the data queried from database
         foreach ($data as $row) {
@@ -42,6 +42,8 @@ class CsvExporter
                 $row->getEmail(), 
                 $row->getAdresse(),
                 $row->getProfession(),
+                $row->getCivil(),
+                $row->getEnfants(),
                 $row->isClient() ? 'Oui' : 'Non',
                 $row->getRecommandation() ? $row->getRecommandation()->getNom() . ' ' . $row->getRecommandation()->getPrenom() : null,
                 $row->getCommentaire()

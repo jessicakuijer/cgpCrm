@@ -1,5 +1,5 @@
-Nom,Prenom,Telephone,Date de naissance,Email,Adresse,Profession,Est un client,Recommandation,Commentaire
-import1,client1,0606060606,18-12-1975,import1client1@gmail.com,adresse import,profession import,Oui,berny edith,client importé
-import2,client2,0606060607,18-12-1976,import1client1@gmail.com,adresse import,profession import,Non,berny edith,client importé
-import3,client3,0606060608,18-12-1977,import1client1@gmail.com,adresse import,profession import,Non,kuijer jessica,client importé
-import4,client4,0606060609,18-12-1978,import1client1@gmail.com,adresse import,profession import,Non,berny chloé,client importé
+Nom,Prenom,Telephone,Date de naissance,Email,Adresse,Profession,Statut Marital,Enfants,Est un client,Recommandation,Commentaire
+Le minh,prénom inconnu,0681870978,18-12-1976,import1client1@gmail.com,77 Combs la ville,voisine,célibataire,1,Oui,lavieille lydia,client importé
+import2,client2,606060607,18-12-1976,import1client1@gmail.com,adresse import,profession import,marié,,Non,berny edith,client importé
+import3,client3,606060608,18-12-1977,import1client1@gmail.com,adresse import,profession import,pacsé,,Non,kuijer jessica,client importé
+import4,client4,606060609,18-12-1978,import1client1@gmail.com,adresse import,profession import,,,Non,berny chloé,client importé
