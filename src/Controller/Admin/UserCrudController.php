@@ -13,9 +13,18 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 
 class UserCrudController extends AbstractCrudController
 {
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     public static function getEntityFqcn(): string
     {
         return User::class;
@@ -31,12 +40,29 @@ class UserCrudController extends AbstractCrudController
             EmailField::new('email')->setLabel('Email'),
             TextField::new('adresse')->setLabel('Adresse'),
             TextField::new('profession')->setLabel('Profession'),
-            TextField::new('civil')->setLabel('Statut Marital'),
+            ChoiceField::new('civil')
+                ->setLabel('Statut Marital')
+                ->setChoices($this->getMaritalStatusChoices()),
             IntegerField::new('enfants')->setLabel('Nombre d\'enfants'),
             BooleanField::new('client')->setLabel('Client'),
             AssociationField::new('recommandation')->setLabel('Recommandation'),
             TextareaField::new('commentaire')->setLabel('Commentaire'),
         ];
+    }
+
+    private function getMaritalStatusChoices(): array
+    {
+        // Récupérer tous les statuts maritaux distincts dans la base de données
+        $query = $this->entityManager->createQuery('SELECT DISTINCT u.Civil FROM App\Entity\User u WHERE u.Civil IS NOT NULL');
+        $statuses = $query->getResult();
+
+        // Transformer le tableau de résultats en format approprié pour setChoices
+        $choices = [];
+        foreach ($statuses as $status) {
+            $choices[$status['Civil']] = $status['Civil'];
+        }
+
+        return $choices;
     }
 
     public function configureCrud(Crud $crud): Crud

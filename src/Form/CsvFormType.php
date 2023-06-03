@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
-class CsvImportType extends AbstractType
+class CsvFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
