@@ -6,14 +6,18 @@ use DateTime;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class CsvImporter
 {
     private $em;
+    private $validator;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, ValidatorInterface $validator)
     {
         $this->em = $em;
+        $this->validator = $validator;
     }
 
     public function importFromCsv(UploadedFile $file): bool
@@ -34,6 +38,48 @@ class CsvImporter
             $csvRow = array_combine($header, $data);
 
             $user = new User();
+
+            // Verify and constrain the data
+            // Validate the email
+            $emailConstraint = new Assert\Email();
+            $emailErrors = $this->validator->validate(
+                $csvRow['Email'],
+                $emailConstraint
+            );
+
+            if (count($emailErrors) > 0) {
+                throw new \Exception($emailErrors[0]->getMessage());
+            }
+
+            // Validate the number of children
+            $childrenConstraint = new Assert\PositiveOrZero();
+            $childrenErrors = $this->validator->validate(
+                $csvRow['Enfants'],
+                $childrenConstraint
+            );
+
+            if (count($childrenErrors) > 0) {
+                throw new \Exception($childrenErrors[0]->getMessage());
+            }
+
+            // Validate the marital status
+            $maritalConstraint = new Assert\Regex([
+                // REGEX to allow only letters, spaces and accents
+                'pattern' => '/^[a-zA-Z\x{00C0}-\x{00FF}\s]*$/u',
+                'message' => 'Le statut marital ne peut contenir que des lettres et des espaces.'
+            ]);
+
+            $maritalErrors = $this->validator->validate(
+                $csvRow['Statut Marital'],
+                $maritalConstraint
+            );
+
+            if (count($maritalErrors) > 0) {
+                throw new \Exception($maritalErrors[0]->getMessage());
+            }
+
+            // Set the data
+
             $user->setNom($csvRow['Nom'] ?? '');
             $user->setPrenom($csvRow['Prenom'] ?? '');
             $user->setTelephone($csvRow['Telephone'] ?? '');
@@ -80,13 +126,19 @@ class CsvImporter
 
             $user->setCommentaire($csvRow['Commentaire'] ?? '');
 
+             // Validate and persist the user
+            $errors = $this->validator->validate($user);
+            if (count($errors) > 0) {
+                throw new \Exception((string) $errors);
+            }
+ 
             $this->em->persist($user);
         }
-
+ 
         fclose($handle);
-
+ 
         $this->em->flush();
-
+ 
         return true;
     }
 }

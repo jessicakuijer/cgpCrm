@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Form\CsvFormType;
 use App\Service\CsvExporter;
 use App\Service\CsvImporter;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +13,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use App\Form\CsvImportType;
 
 class DashboardController extends AbstractDashboardController
 {
@@ -63,7 +63,7 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin/import', name: 'admin_import')]
     public function importFromCsv(Request $request): Response
     {
-        $form = $this->createForm(CsvImportType::class);
+        $form = $this->createForm(CsvFormType::class);
         $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form['file']->isValid()) {
