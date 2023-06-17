@@ -30,6 +30,27 @@ class UserCrudController extends AbstractCrudController
         return User::class;
     }
 
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::persistEntity($entityManager, $entityInstance);
+
+        $this->addFlash('success', 'L\'utilisateur a été créé avec succès !');
+    }
+
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::updateEntity($entityManager, $entityInstance);
+
+        $this->addFlash('success', 'L\'utilisateur a été mis à jour avec succès !');
+    }
+
+    public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::deleteEntity($entityManager, $entityInstance);
+
+        $this->addFlash('success', 'L\'utilisateur a été supprimé avec succès !');
+    }
+
     public function configureFields(string $pageName): iterable
     {
         return [

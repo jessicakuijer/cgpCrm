@@ -9,6 +9,7 @@ use App\Service\CsvImporter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
@@ -83,6 +84,15 @@ class DashboardController extends AbstractDashboardController
         return Dashboard::new()
             ->setTitle('CGP - Admin');
     }
+
+    // configuration des assets (override de la méthode configureAssets() d'easyadmin si je veux rajouter du custom css/js avec webpackEncore - ne pas oublier de faire 'npm run dev' pour compiler le css/js)
+    /* public function configureAssets(): Assets
+    {
+        return parent::configureAssets()
+            ->addWebpackEncoreEntry('app')
+            ->addWebpackEncoreEntry('styles');
+    }
+    */
 
     public function configureMenuItems(): iterable
     {
