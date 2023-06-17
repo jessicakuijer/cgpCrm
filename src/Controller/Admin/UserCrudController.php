@@ -45,7 +45,9 @@ class UserCrudController extends AbstractCrudController
                 ->setChoices($this->getMaritalStatusChoices()),
             IntegerField::new('enfants')->setLabel('Nombre d\'enfants'),
             BooleanField::new('client')->setLabel('Client'),
-            AssociationField::new('recommandation')->setLabel('Recommandation'),
+            AssociationField::new('recommandation')->setLabel('Recommandation')->setFormTypeOptions([
+                'placeholder' => 'Sélectionner une recommandation',
+            ]),
             TextareaField::new('commentaire')->setLabel('Commentaire'),
         ];
     }
