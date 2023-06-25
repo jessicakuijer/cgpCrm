@@ -2,19 +2,20 @@
 
 namespace App\Controller\Admin;
 
-use IntlChar;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use Doctrine\ORM\EntityManagerInterface;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -54,6 +55,9 @@ class UserCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+            FormField::addPanel('Champs obligatoires')
+            ->setIcon('fas warning fa-exclamation-triangle')
+            ->setHelp('Merci de bien vouloir remplir les champs marqués d\'une étoile (*)'),
             TextField::new('nom')->setLabel('Nom'),
             TextField::new('prenom')->setLabel('Prénom'),
             TextField::new('telephone')->setLabel('Téléphone'),
@@ -63,12 +67,17 @@ class UserCrudController extends AbstractCrudController
             TextField::new('profession')->setLabel('Profession'),
             ChoiceField::new('civil')
                 ->setLabel('Statut Marital')
-                ->setChoices($this->getMaritalStatusChoices()),
+                ->setChoices($this->getMaritalStatusChoices())
+                ->setFormTypeOption('empty_data', ''),
             IntegerField::new('enfants')->setLabel('Nombre d\'enfants'),
             BooleanField::new('client')->setLabel('Client'),
-            AssociationField::new('recommandation')->setLabel('Recommandation')->setFormTypeOptions([
+            AssociationField::new('recommandation')
+            ->setLabel('Recommandation')
+            ->setFormTypeOptions([
+                'required' => false,
                 'placeholder' => 'Sélectionner une recommandation',
-            ]),
+            ])
+            ->setHelp('Ce champ est facultatif. Vous pouvez sélectionner une recommandation si vous le souhaitez.'),
             TextareaField::new('commentaire')->setLabel('Commentaire'),
         ];
     }
@@ -84,6 +93,8 @@ class UserCrudController extends AbstractCrudController
         foreach ($statuses as $status) {
             $choices[$status['Civil']] = $status['Civil'];
         }
+
+        $choices['Autre'] = 'Autre';
 
         return $choices;
     }

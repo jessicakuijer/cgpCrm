@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -50,13 +51,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $client = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $recommandation_id = null;
+
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'users')]
+    #[ORM\JoinColumn(name: "recommandation_id", referencedColumnName: "id")]
     private ?self $recommandation = null;
 
     #[ORM\OneToMany(mappedBy: 'recommandation', targetEntity: self::class)]
     private Collection $users;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $commentaire = null;
 
     #[ORM\Column(nullable: true)]
@@ -218,7 +223,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->commentaire;
     }
 
-    public function setCommentaire(string $commentaire): self
+    public function setCommentaire(?string $commentaire): self
     {
         $this->commentaire = $commentaire;
 
