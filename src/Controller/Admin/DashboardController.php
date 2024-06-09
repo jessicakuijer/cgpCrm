@@ -101,5 +101,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToRoute('Importer depuis un CSV', 'fa fa-file-upload', 'admin_import');
         yield MenuItem::linkToCrud('Ajouter un client', 'fa fa-user-plus', User::class)->setAction('new');
         yield MenuItem::linkToLogout('Se déconnecter', 'fa fa-sign-out', 'app_logout');
+        yield MenuItem::linkToUrl('Retour au site', 'fa fa-home', '/clients');
     }
 }

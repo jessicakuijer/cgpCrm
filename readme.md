@@ -1,6 +1,6 @@
 # Gestion CRM
 
-Ce projet est une application web de gestion des relations clients (CRM) conçue pour une conseillère en gestion de patrimoine. Il a été développé en utilisant le framework Symfony 6 et EasyAdmin 4 pour la partie administrateur.
+Ce projet est une application web de gestion des relations clients (CRM) conçue pour une conseillère en gestion de patrimoine. Il a été développé en utilisant le framework Symfony 6.4 et EasyAdmin 4 pour la partie administrateur.
 
 ## Pré-requis
 
