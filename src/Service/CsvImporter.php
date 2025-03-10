@@ -97,7 +97,7 @@ class CsvImporter
             $user->setProfession($csvRow['Profession'] ?? '');
             $user->setCivil($csvRow['Statut Marital'] ?? '');
             $user->setEnfants(isset($csvRow['Enfants']) ? (int)$csvRow['Enfants'] : null);
-            $user->setClient($csvRow['Est un client'] === 'Oui' ? true : false);
+            $user->setClient(strtolower($csvRow['Est un client']) === 'oui' ? true : false);
             
             if (isset($csvRow['Recommandation'])) {
                 $recommandations = explode(',', $csvRow['Recommandation']);
@@ -126,19 +126,20 @@ class CsvImporter
 
             $user->setCommentaire($csvRow['Commentaire'] ?? '');
 
-             // Validate and persist the user
+            // Validate and persist the user
             $errors = $this->validator->validate($user);
             if (count($errors) > 0) {
                 throw new \Exception((string) $errors);
             }
- 
+
             $this->em->persist($user);
         }
- 
+
         fclose($handle);
- 
+
         $this->em->flush();
- 
+
         return true;
     }
+
 }
