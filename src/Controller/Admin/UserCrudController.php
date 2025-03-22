@@ -54,7 +54,7 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        return [
+        $fields = [
             FormField::addPanel('Champs obligatoires')
             ->setIcon('fas warning fa-exclamation-triangle')
             ->setHelp('Merci de bien vouloir remplir les champs marqués d\'une étoile (*)'),
@@ -80,6 +80,28 @@ class UserCrudController extends AbstractCrudController
             ->setHelp('Ce champ est facultatif. Vous pouvez sélectionner une recommandation si vous le souhaitez.'),
             TextareaField::new('commentaire')->setLabel('Commentaire'),
         ];
+        
+        if (Crud::PAGE_EDIT === $pageName || Crud::PAGE_DETAIL === $pageName) {
+
+            $user = $this->getContext()->getEntity()->getInstance();
+            
+            if ($user && $user->isClient()) {
+                $fields[] = TextareaField::new('contratsSouscrits')
+                    ->setLabel('Contrats Souscrits')
+                    ->setHelp('Liste des contrats souscrits par le client');
+            }
+        } else if (Crud::PAGE_NEW === $pageName) {
+            // Affichage champs géré en JavaScript
+            $fields[] = TextareaField::new('contratsSouscrits')
+                ->setLabel('Contrats Souscrits')
+                ->setHelp('Liste des contrats souscrits par le client')
+                ->setFormTypeOption('attr', [
+                    'class' => 'contrats-souscrits-field',
+                    'style' => 'display: none;'
+                ]);
+        }
+        
+        return $fields;
     }
 
     private function getMaritalStatusChoices(): array

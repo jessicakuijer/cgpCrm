@@ -51,6 +51,27 @@
         </form>
     </div>
 
+    <div class="search-form mb-4 mt-3">
+        <form method="get" action="{{ path('app_clients') }}" class="form-inline">
+            <div class="input-group w-100">
+                <input type="text" name="search" class="form-control" placeholder="Rechercher un client..." 
+                    value="{{ app.request.query.get('search') }}">
+                <input type="hidden" name="filter" value="{{ filter }}">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-search"></i> Rechercher
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    {% if clients|length == 0 %}
+    <div class="alert alert-info text-center mt-4">
+        Aucun résultat ne correspond à votre recherche.
+    </div>
+    {% endif %}
+
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="row">
@@ -68,7 +89,19 @@
                                 <p class="card-text"><strong>Recommandé par:</strong> {{ client.recommandation ? client.recommandation.nom ~ ' ' ~ client.recommandation.prenom : 'Aucune' }}</p>
                                 <p class="card-text"><strong>Commentaire:</strong> {{ client.commentaire }}</p>
                                 <p class="card-text"><strong>Enfants:</strong> {{ client.enfants }}</p>
-                                <p class="card-text"><strong>État civil:</strong> {{ client.civil }}</p>
+                                <p class="card-text"><strong>État civil:</strong> {{ client.civil ? client.civil : 'N/A' }}</p>
+                                {% if client.client and client.contratsSouscrits %}
+                                    <div class="card-text">
+                                        <strong>Contrats souscrits:</strong>
+                                        <ul class="list-unstyled mt-1">
+                                            {% for contrat in client.contratsSouscrits|split('\n') %}
+                                                {% if contrat|trim %}
+                                                    <li>{{ contrat|trim|replace({'-': '•'}) }}</li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
                                 <a href="tel:{{ client.telephone }}" class="btn btn-primary">Contacter</a>
                             </div>
                         </div>

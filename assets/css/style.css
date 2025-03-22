@@ -8,3 +8,17 @@ body {
     background-color: #007bff;
     border-color: #007bff;
 }
+
+.search-form {
+    margin: 15px 0;
+}
+
+.search-form .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.search-form .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}

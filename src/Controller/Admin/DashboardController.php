@@ -103,4 +103,10 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToLogout('Se déconnecter', 'fa fa-sign-out', 'app_logout');
         yield MenuItem::linkToUrl('Retour au site', 'fa fa-home', '/clients');
     }
+
+    public function configureAssets(): Assets
+    {
+        return parent::configureAssets()
+            ->addJsFile('js/admin.js'); // Créez ce fichier dans public/js/
+    }
 }

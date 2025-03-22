@@ -64,6 +64,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $commentaire = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $contratsSouscrits = null;
+
     #[ORM\Column(nullable: true)]
     private ?int $Enfants = null;
 
@@ -226,6 +229,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCommentaire(?string $commentaire): self
     {
         $this->commentaire = $commentaire;
+
+        return $this;
+    }
+
+    public function getContratsSouscrits(): ?string
+    {
+        return $this->contratsSouscrits;
+    }
+
+    public function setContratsSouscrits(?string $contratsSouscrits): self
+    {
+        $this->contratsSouscrits = $contratsSouscrits;
 
         return $this;
     }

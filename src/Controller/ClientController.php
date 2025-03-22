@@ -15,19 +15,33 @@ class ClientController extends AbstractController
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
         $filter = $request->query->get('filter', 'all');
+        $search = $request->query->get('search', '');
 
-        // Filtrer les utilisateurs en fonction du filtre sélectionné
+        // Créer un QueryBuilder
+        $queryBuilder = $entityManager->getRepository(User::class)->createQueryBuilder('u');
+        
+        // Appliquer le filtre de type (client/prospect)
         if ($filter === 'clients') {
-            $clients = $entityManager->getRepository(User::class)->findBy(['client' => true]);
+            $queryBuilder->andWhere('u.client = :client')
+                ->setParameter('client', true);
         } elseif ($filter === 'prospects') {
-            $clients = $entityManager->getRepository(User::class)->findBy(['client' => false]);
-        } else {
-            $clients = $entityManager->getRepository(User::class)->findAll();
+            $queryBuilder->andWhere('u.client = :client')
+                ->setParameter('client', false);
         }
+        
+        // Appliquer la recherche si un terme est fourni
+        if (!empty($search)) {
+            $queryBuilder->andWhere('u.nom LIKE :search OR u.prenom LIKE :search OR u.email LIKE :search OR u.profession LIKE :search OR u.adresse LIKE :search OR u.telephone LIKE :search')
+                ->setParameter('search', '%' . $search . '%');
+        }
+        
+        // Exécuter la requête
+        $clients = $queryBuilder->getQuery()->getResult();
 
         return $this->render('client/index.html.twig', [
             'clients' => $clients,
             'filter' => $filter,
+            'search' => $search,
         ]);
     }
 }
